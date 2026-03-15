@@ -115,7 +115,7 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
 - Implement `GET /cars/{id}` ✅
 - Return full normalized and raw data on detail page
 
-### 6. Scraper architecture
+### 6. Scraper architecture ✅
 - Create worker module structure:
   - `scraper/client.py`
   - `scraper/parsers/list_page.py`
