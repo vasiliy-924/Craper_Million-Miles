@@ -1,5 +1,4 @@
-name:
-  million_miles_scraper
+name: million_miles_scraper
 services:
   db:
     image: postgres:16
