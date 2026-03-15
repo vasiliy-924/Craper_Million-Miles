@@ -81,7 +81,7 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - `year`
   - `mileage_km`
 
-### 4. Auth
+### 4. Auth ✅
 - Seed default user:
   - username: `admin`
   - password: `admin123`
@@ -91,7 +91,7 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - `POST /auth/login`
 - Protect car endpoints with bearer token
 
-### 5. Car API
+### 5. Car API 
 - Implement `GET /cars`
 - Support query params:
   - `page`
