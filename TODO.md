@@ -39,14 +39,14 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - `GET /health`  ✅
 
 ### 3. Database design
-- Set up `PostgreSQL`
-- Configure `SQLAlchemy` and `Alembic`
-- Create `users` table:
+- Set up `PostgreSQL` ✅
+- Configure `SQLAlchemy` and `Alembic` ✅
+- Create `users` table: ✅
   - `id`
   - `username`
   - `password_hash`
   - `created_at`
-- Create `cars` table:
+- Create `cars` table: ✅
   - `id`
   - `external_id`
   - `source_url`
@@ -73,7 +73,7 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - `specs`
   - `scraped_at`
   - `updated_at`
-- Add indexes for:
+- Add indexes for: ✅
   - `external_id`
   - `brand_normalized`
   - `model_normalized`
