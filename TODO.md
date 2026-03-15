@@ -91,9 +91,9 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - `POST /auth/login`
 - Protect car endpoints with bearer token
 
-### 5. Car API 
-- Implement `GET /cars`
-- Support query params:
+### 5. Car API ✅
+- Implement `GET /cars` ✅
+- Support query params: ✅
   - `page`
   - `limit`
   - `brand`
@@ -106,13 +106,13 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - `max_mileage`
   - `sort_by`
   - `sort_order`
-- Response should include:
+- Response should include: ✅
   - `items`
   - `total`
   - `page`
   - `limit`
   - `pages`
-- Implement `GET /cars/{id}`
+- Implement `GET /cars/{id}` ✅
 - Return full normalized and raw data on detail page
 
 ### 6. Scraper architecture
