@@ -182,23 +182,23 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
 - Add `Zustand` for auth state management ✅ 
 - Token storage: `localStorage` (Zustand store syncs with it) ✅
 
-### 11. Frontend pages
-- `/login`
+### 11. Frontend pages ✅ 
+- `/login` ✅ 
   - username/password form
   - stores JWT
   - redirects to cars list
-- `/cars`
+- `/cars` ✅ 
   - responsive grid/list
   - filters
   - sorting
   - pagination
   - loading and empty states
-- `/cars/[id]`
+- `/cars/[id]` ✅ 
   - gallery
   - summary card
   - specs section
   - source link to Carsensor
-- Add route protection for authenticated pages
+- Add route protection for authenticated pages ✅
 
 ### 12. UI details
 - English-only labels everywhere
