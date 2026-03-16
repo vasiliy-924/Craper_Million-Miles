@@ -18,9 +18,25 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/cars_db
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/cars_db
       JWT_SECRET: your-secret-key-change-in-production
       JWT_ALGORITHM: HS256
+    depends_on:
+      - db
+
+  worker:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    environment:
+      PYTHONUNBUFFERED: "1"
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/cars_db
+      WORKER_MODE: loop
+      SCRAPE_INTERVAL_SECONDS: "3600"
+      SCRAPER_BRANDS: TO,HO,NI
+      SCRAPER_MAX_PAGES: "1"
+      SCRAPER_MAX_CARS: "20"
+    command: ["python", "-m", "worker.main"]
     depends_on:
       - db
 

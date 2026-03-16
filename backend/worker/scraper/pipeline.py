@@ -32,6 +32,12 @@ BRAND_URLS = {
 RunSummary = dict[str, Any]
 
 
+def _truncate(s: Optional[str], max_len: int = 255) -> Optional[str]:
+    if s is None:
+        return None
+    return s[:max_len] if len(s) > max_len else s
+
+
 def get_brand_list_url(brand_code: str, page: int = 1) -> str:
     base = BRAND_URLS.get(brand_code.upper())
     if not base:
@@ -48,26 +54,28 @@ def normalize_to_db(raw: dict[str, Any]) -> dict[str, Any]:
             raw.get("external_id") or extract_external_id(raw.get("source_url", ""))
         ),
         "source_url": raw.get("source_url", ""),
-        "brand_raw": raw.get("brand_raw"),
-        "brand_normalized": normalize_brand(raw.get("brand_raw")),
-        "model_raw": raw.get("model_raw"),
-        "model_normalized": normalize_model(raw.get("model_raw")),
+        "brand_raw": _truncate(raw.get("brand_raw")),
+        "brand_normalized": _truncate(normalize_brand(raw.get("brand_raw"))),
+        "model_raw": _truncate(raw.get("model_raw")),
+        "model_normalized": _truncate(normalize_model(raw.get("model_raw"))),
         "year": parse_year(raw.get("year_raw")),
         "mileage_km": parse_mileage_km(raw.get("mileage_raw")),
         "price_jpy": parse_price_jpy(raw.get("price_raw")),
         "total_price_jpy": parse_price_jpy(raw.get("total_price_raw")),
-        "fuel_raw": raw.get("fuel_raw"),
-        "fuel_normalized": normalize_fuel(raw.get("fuel_raw")),
-        "transmission_raw": raw.get("transmission_raw"),
-        "transmission_normalized": normalize_transmission(
-            raw.get("transmission_raw")
+        "fuel_raw": _truncate(raw.get("fuel_raw")),
+        "fuel_normalized": _truncate(normalize_fuel(raw.get("fuel_raw"))),
+        "transmission_raw": _truncate(raw.get("transmission_raw")),
+        "transmission_normalized": _truncate(
+            normalize_transmission(raw.get("transmission_raw"))
         ),
-        "body_type_raw": raw.get("body_type_raw"),
-        "body_type_normalized": normalize_body_type(raw.get("body_type_raw")),
-        "location_raw": raw.get("location_raw"),
-        "location_normalized": normalize_location(raw.get("location_raw")),
-        "color_raw": raw.get("color_raw"),
-        "dealer_name": raw.get("dealer_name"),
+        "body_type_raw": _truncate(raw.get("body_type_raw")),
+        "body_type_normalized": _truncate(
+            normalize_body_type(raw.get("body_type_raw"))
+        ),
+        "location_raw": _truncate(raw.get("location_raw")),
+        "location_normalized": _truncate(normalize_location(raw.get("location_raw"))),
+        "color_raw": _truncate(raw.get("color_raw")),
+        "dealer_name": _truncate(raw.get("dealer_name")),
         "main_image_url": raw.get("main_image_url"),
         "image_urls": raw.get("image_urls") or [],
         "specs": raw.get("specs_raw") or {},
@@ -160,6 +168,7 @@ def scrape_brand(
                 summary["updated"] += 1
             results.append({"external_id": car.external_id, "id": car.id})
         except Exception as e:  # pylint: disable=broad-except
+            db.rollback()
             summary["failed"] += 1
             summary["failed_urls"].append(detail_url)
             print(f"Error scraping {detail_url}: {e}")
