@@ -116,23 +116,23 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
 - Return full normalized and raw data on detail page
 
 ### 6. Scraper architecture ✅
-- Create worker module structure:
+- Create worker module structure: ✅
   - `scraper/client.py`
   - `scraper/parsers/list_page.py`
   - `scraper/parsers/detail_page.py`
   - `scraper/normalizers.py`
   - `scraper/dictionaries.py`
   - `scraper/pipeline.py`
-- Add HTTP client with:
+- Add HTTP client with: ✅
   - browser-like headers
   - retry/backoff
   - timeout
   - throttling
-- Implement list-page scraping:
+- Implement list-page scraping: ✅
   - fetch listing pages for chosen brands
   - extract detail URLs
   - deduplicate links
-- Implement detail-page scraping:
+- Implement detail-page scraping: ✅
   - parse title
   - parse price
   - parse year
@@ -141,7 +141,7 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - parse dealer name
   - parse photos
   - parse specs table
-- Derive stable `external_id` from Carsensor URL
+- Derive stable `external_id` from Carsensor URL ✅
 
 ### 7. Translation and normalization
 - Build English-only normalization dictionaries for Japanese values:

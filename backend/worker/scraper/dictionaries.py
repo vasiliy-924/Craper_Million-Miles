@@ -37,11 +37,21 @@ BODY_TYPE_MAP = {
     "その他": "other",
 }
 
-# For spec labels if you want to translate them later
 SPEC_LABEL_MAP = {
     "年式(初度登録年)": "year",
-    "走行距離": "mileage",
-    "ボディタイプ": "body_type",
+    "走行距離": "mileage_km",
+    "本体価格": "price_jpy",
+    "支払総額": "total_price_jpy",
     "ミッション": "transmission",
     "エンジン種別": "fuel",
+    "ボディタイプ": "body_type",
+}
+
+PREFECTURE_MAP = {
+    "北海道": "Hokkaido",
+    "東京都": "Tokyo",
+    "大阪府": "Osaka",
+    "愛知県": "Aichi",
+    "神奈川県": "Kanagawa",
+    "福岡県": "Fukuoka",
 }

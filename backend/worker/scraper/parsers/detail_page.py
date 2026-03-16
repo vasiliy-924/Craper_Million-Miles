@@ -27,6 +27,8 @@ def parse_detail_page(html: str, source_url: str) -> dict[str, Any]:
         "main_image_url": None,
         "image_urls": [],
         "specs_raw": {},
+        "location_raw": None,
+        "color_raw": None,
     }
 
     # Extract external_id from URL
@@ -67,6 +69,10 @@ def parse_detail_page(html: str, source_url: str) -> dict[str, Any]:
             result["price_raw"] = value
         if "支払総額" in label and "税込" in label:
             result["total_price_raw"] = value
+        if "販売地域" in label or "所在地" in label or "都道府県" in label or "地域" in label:
+            result["location_raw"] = value
+        if "色" in label:
+            result["color_raw"] = value
         elif "支払総額" in label and not result["total_price_raw"]:
             result["total_price_raw"] = value
 
