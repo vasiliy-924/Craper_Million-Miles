@@ -116,6 +116,11 @@ class TestNormalizeLocation:
     def test_maps_prefecture(self):
         assert normalize_location("北海道函館市") == "Hokkaido"
         assert normalize_location("愛知県名古屋市港区") == "Aichi"
+        assert normalize_location("岡山県岡山市南区") == "Okayama"
+        assert normalize_location("静岡県駿東郡") == "Shizuoka"
+        assert normalize_location("栃木県宇都宮市") == "Tochigi"
+        assert normalize_location("鹿児島県霧島市") == "Kagoshima"
+        assert normalize_location("三重県鈴鹿市") == "Mie"
 
     def test_returns_none_for_unknown(self):
         assert normalize_location("未知の県") is None

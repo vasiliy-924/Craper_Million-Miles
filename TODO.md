@@ -143,22 +143,22 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - parse specs table
 - Derive stable `external_id` from Carsensor URL ✅
 
-### 7. Translation and normalization
-- Build English-only normalization dictionaries for Japanese values:
+### 7. Translation and normalization ✅
+- Build English-only normalization dictionaries for Japanese values: ✅
   - brands
   - fuel types
   - body types
   - transmissions
   - common spec labels
   - prefectures/locations if useful
-- Implement converters:
+- Implement converters: ✅
   - `149.8万円 -> 1498000`
   - `3.5万km -> 35000`
   - `2023(R05)年 -> 2023`
-- Keep both:
+- Keep both: ✅
   - raw source fields
   - normalized English fields
-- Log unknown Japanese labels so they can be added later
+- Log unknown Japanese labels so they can be added later ✅
 
 ### 8. Persistence pipeline
 - Upsert by `external_id`
