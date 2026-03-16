@@ -167,23 +167,20 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
 - Handle partial parse failures without stopping the whole run ✅
 - Optionally mark stale cars if no longer seen ✅
 
-### 9. Scheduling
-- Add hourly run strategy
-- For local Docker MVP, simplest options:
+### 9. Scheduling ✅
+- Add hourly run strategy ✅
+- For local Docker MVP, simplest options: ✅
   - worker loop with `sleep 3600`
   - or cron inside worker container
-- Also add manual command:
+- Also add manual command: ✅
   - one-shot scrape for development/demo
 
-### 10. Frontend foundation
-- Initialize `Next.js` with `TypeScript`
-- Add `Tailwind CSS`
-- Add data fetching with `TanStack Query`
-- Add auth state management
-- Decide token storage:
-  - simplest MVP: `localStorage`
-  - cleaner option: cookie-based auth proxy
-- For the test, `localStorage` is acceptable if documented
+### 10. Frontend foundation ✅
+- Initialize `Next.js` with `TypeScript` ✅
+- Add `Tailwind CSS` ✅
+- Add data fetching with `TanStack Query` ✅
+- Add `Zustand` for auth state management ✅ 
+- Token storage: `localStorage` (Zustand store syncs with it) ✅
 
 ### 11. Frontend pages
 - `/login`
