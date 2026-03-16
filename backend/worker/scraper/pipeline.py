@@ -28,6 +28,9 @@ BRAND_URLS = {
     "NI": "https://carsensor.net/usedcar/bNI/index.html",
 }
 
+# processed, inserted, updated, failed, skipped, failed_urls
+RunSummary = dict[str, Any]
+
 
 def get_brand_list_url(brand_code: str, page: int = 1) -> str:
     base = BRAND_URLS.get(brand_code.upper())
@@ -41,7 +44,9 @@ def get_brand_list_url(brand_code: str, page: int = 1) -> str:
 def normalize_to_db(raw: dict[str, Any]) -> dict[str, Any]:
     """Convert raw parsed dict to DB-ready format."""
     return {
-        "external_id": raw.get("external_id") or extract_external_id(raw.get("source_url", "")),
+        "external_id": (
+            raw.get("external_id") or extract_external_id(raw.get("source_url", ""))
+        ),
         "source_url": raw.get("source_url", ""),
         "brand_raw": raw.get("brand_raw"),
         "brand_normalized": normalize_brand(raw.get("brand_raw")),
@@ -54,7 +59,9 @@ def normalize_to_db(raw: dict[str, Any]) -> dict[str, Any]:
         "fuel_raw": raw.get("fuel_raw"),
         "fuel_normalized": normalize_fuel(raw.get("fuel_raw")),
         "transmission_raw": raw.get("transmission_raw"),
-        "transmission_normalized": normalize_transmission(raw.get("transmission_raw")),
+        "transmission_normalized": normalize_transmission(
+            raw.get("transmission_raw")
+        ),
         "body_type_raw": raw.get("body_type_raw"),
         "body_type_normalized": normalize_body_type(raw.get("body_type_raw")),
         "location_raw": raw.get("location_raw"),
@@ -67,25 +74,32 @@ def normalize_to_db(raw: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def upsert_car(db: Session, data: dict[str, Any]) -> Car:
-    """Insert or update car by external_id."""
+def upsert_car(db: Session, data: dict[str, Any]) -> tuple[Car, str]:
+    """
+    Insert or update car by external_id.
+    Returns (car, action) where action is 'inserted' or 'updated'.
+    For updates: only overwrite when new value is not None (safer MVP).
+    """
     now = datetime.now(timezone.utc)
-    existing = db.query(Car).filter(Car.external_id == data["external_id"]).first()
+    existing = (
+        db.query(Car).filter(Car.external_id == data["external_id"]).first()
+    )
 
     if existing:
         for k, v in data.items():
-            setattr(existing, k, v)
+            if v is not None:  # Safer: don't overwrite good data with None
+                setattr(existing, k, v)
         existing.scraped_at = now
         existing.updated_at = now
         db.commit()
         db.refresh(existing)
-        return existing
+        return existing, "updated"
 
     car = Car(**data, scraped_at=now, updated_at=now)
     db.add(car)
     db.commit()
     db.refresh(car)
-    return car
+    return car, "inserted"
 
 
 def scrape_brand(
@@ -94,8 +108,8 @@ def scrape_brand(
     brand_code: str,
     max_pages: int = 1,
     max_cars: Optional[int] = None,
-) -> list[dict]:
-    """Scrape one brand and upsert cars."""
+) -> tuple[list[dict], RunSummary]:
+    """Scrape one brand and upsert cars. Returns (results, summary)."""
     seen_urls: set[str] = set()
     ordered_urls: list[str] = []
     for page in range(1, max_pages + 1):
@@ -112,26 +126,45 @@ def scrape_brand(
         if max_cars and len(ordered_urls) >= max_cars:
             break
 
-    # Keep first-seen order for reproducible scraping.
     urls_list = ordered_urls
     if max_cars:
         urls_list = urls_list[:max_cars]
+
     results = []
+    summary: RunSummary = {
+        "processed": 0,
+        "inserted": 0,
+        "updated": 0,
+        "failed": 0,
+        "skipped": 0,
+        "failed_urls": [],
+    }
 
     for detail_url in urls_list:
         try:
             html = client.fetch_html(detail_url)
             raw = parse_detail_page(html, detail_url)
-            raw["external_id"] = raw.get("external_id") or extract_external_id(detail_url)
+            raw["external_id"] = (
+                raw.get("external_id") or extract_external_id(detail_url)
+            )
             if not raw["external_id"]:
+                summary["skipped"] += 1
                 continue
+
             normalized = normalize_to_db(raw)
-            car = upsert_car(db, normalized)
+            car, action = upsert_car(db, normalized)
+            summary["processed"] += 1
+            if action == "inserted":
+                summary["inserted"] += 1
+            else:
+                summary["updated"] += 1
             results.append({"external_id": car.external_id, "id": car.id})
-        except Exception as e:
+        except Exception as e:  # pylint: disable=broad-except
+            summary["failed"] += 1
+            summary["failed_urls"].append(detail_url)
             print(f"Error scraping {detail_url}: {e}")
 
-    return results
+    return results, summary
 
 
 def scrape_all(
@@ -139,11 +172,26 @@ def scrape_all(
     brands: list[str] | None = None,
     max_pages: int = 1,
     max_cars: Optional[int] = 20,
-) -> list[dict]:
-    """Scrape configured brands."""
+) -> tuple[list[dict], RunSummary]:
+    """Scrape configured brands. Returns (all_results, aggregated_summary)."""
     brands = brands or ["TO"]
     client = ScraperClient()
     all_results = []
+    total_summary: RunSummary = {
+        "processed": 0,
+        "inserted": 0,
+        "updated": 0,
+        "failed": 0,
+        "skipped": 0,
+        "failed_urls": [],
+    }
     for brand in brands:
-        all_results.extend(scrape_brand(client, db, brand, max_pages, max_cars))
-    return all_results
+        results, summary = scrape_brand(client, db, brand, max_pages, max_cars)
+        all_results.extend(results)
+        total_summary["processed"] += summary["processed"]
+        total_summary["inserted"] += summary["inserted"]
+        total_summary["updated"] += summary["updated"]
+        total_summary["failed"] += summary["failed"]
+        total_summary["skipped"] += summary["skipped"]
+        total_summary["failed_urls"].extend(summary["failed_urls"])
+    return all_results, total_summary

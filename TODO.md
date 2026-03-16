@@ -160,12 +160,12 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - normalized English fields
 - Log unknown Japanese labels so they can be added later ✅
 
-### 8. Persistence pipeline
-- Upsert by `external_id`
-- Update changed fields on re-scrape
-- Keep `scraped_at` / `updated_at`
-- Handle partial parse failures without stopping the whole run
-- Optionally mark stale cars if no longer seen
+### 8. Persistence pipeline ✅
+- Upsert by `external_id` ✅ 
+- Update changed fields on re-scrape ✅
+- Keep `scraped_at` / `updated_at` ✅
+- Handle partial parse failures without stopping the whole run ✅
+- Optionally mark stale cars if no longer seen ✅
 
 ### 9. Scheduling
 - Add hourly run strategy
