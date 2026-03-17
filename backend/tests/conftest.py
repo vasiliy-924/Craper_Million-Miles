@@ -1,7 +1,16 @@
 """Pytest fixtures for API tests. Uses Testcontainers (local) or compose db (Docker)."""
 import os
+import pathlib
 
 import pytest
+
+FIXTURES_DIR = pathlib.Path(__file__).parent / "fixtures"
+
+
+def load_fixture(name: str) -> str:
+    """Load HTML fixture from tests/fixtures/."""
+    path = FIXTURES_DIR / name
+    return path.read_text(encoding="utf-8")
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker

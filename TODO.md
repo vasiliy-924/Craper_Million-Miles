@@ -239,7 +239,7 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - car detail test ✅
   - normalization unit tests ✅
 - Scraper:
-  - parser tests on saved HTML fixtures 
+  - parser tests on saved HTML fixtures ✅
   - currency/mileage/year normalization tests ✅
 - Frontend:
   - smoke test login ✅
