@@ -2,6 +2,8 @@
 
 A full-stack application that scrapes used car listings from [Carsensor](https://carsensor.net/), stores them in PostgreSQL, and exposes them via a REST API and a Next.js web app. Data is normalized from Japanese to English. Access is protected by JWT authentication.
 
+![Demo](docs/demo.gif)
+
 ## Stack
 
 - **backend**: FastAPI, SQLAlchemy, Alembic, PostgreSQL, python-jose
@@ -17,6 +19,8 @@ A full-stack application that scrapes used car listings from [Carsensor](https:/
 2. Run `make up`
 3. (Optional) Run `make scrape` to populate the database
 4. Open [http://localhost:3000](http://localhost:3000) (frontend) or [http://localhost:8000](http://localhost:8000) (API)
+
+![Demo](docs/image.png)
 
 ### One-command startup
 

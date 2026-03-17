@@ -1,8 +1,26 @@
 """Pytest fixtures for API tests. Uses Testcontainers (local) or compose db (Docker)."""
+
 import os
 import pathlib
 
 import pytest
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from testcontainers.postgres import PostgresContainer
+
+# Set env before app imports so Settings loads test values
+os.environ.setdefault(
+    "DATABASE_URL", "postgresql+psycopg://postgres:postgres@localhost:5432/test"
+)
+os.environ.setdefault("JWT_SECRET", "test-secret-for-pytest")
+
+from app.core.security import hash_password  # noqa: E402
+from app.db.base import Base
+from app.db.session import get_db
+from app.main import app
+from app.models.car import Car
+from app.models.user import User
 
 FIXTURES_DIR = pathlib.Path(__file__).parent / "fixtures"
 
@@ -11,21 +29,6 @@ def load_fixture(name: str) -> str:
     """Load HTML fixture from tests/fixtures/."""
     path = FIXTURES_DIR / name
     return path.read_text(encoding="utf-8")
-from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from testcontainers.postgres import PostgresContainer
-
-# Set env before app imports so Settings loads test values
-os.environ.setdefault("DATABASE_URL", "postgresql+psycopg://postgres:postgres@localhost:5432/test")
-os.environ.setdefault("JWT_SECRET", "test-secret-for-pytest")
-
-from app.core.security import hash_password
-from app.db.base import Base
-from app.db.session import get_db
-from app.main import app
-from app.models.car import Car
-from app.models.user import User
 
 
 @pytest.fixture(scope="session")
@@ -133,9 +136,24 @@ def _make_car(**kwargs) -> dict:
 def sample_cars(db_session):
     """Insert sample cars for list/detail tests."""
     cars_data = [
-        _make_car(external_id="AU001", brand_normalized="Toyota", year=2020, price_jpy=1_000_000),
-        _make_car(external_id="AU002", brand_normalized="Honda", year=2021, price_jpy=1_500_000),
-        _make_car(external_id="AU003", brand_normalized="Toyota", year=2022, price_jpy=2_000_000),
+        _make_car(
+            external_id="AU001",
+            brand_normalized="Toyota",
+            year=2020,
+            price_jpy=1_000_000,
+        ),
+        _make_car(
+            external_id="AU002",
+            brand_normalized="Honda",
+            year=2021,
+            price_jpy=1_500_000,
+        ),
+        _make_car(
+            external_id="AU003",
+            brand_normalized="Toyota",
+            year=2022,
+            price_jpy=2_000_000,
+        ),
     ]
     cars = []
     for d in cars_data:

@@ -1,4 +1,5 @@
 """Tests for scraper pipeline."""
+
 # pylint: disable=redefined-outer-name
 from unittest.mock import MagicMock, patch
 
@@ -141,6 +142,7 @@ def test_partial_failure_does_not_stop_run(db_session):
 
     with patch("worker.scraper.pipeline.extract_detail_urls", return_value=urls):
         with patch("worker.scraper.pipeline.parse_detail_page") as mock_parse:
+
             def parse_side_effect(_html, url):
                 if "AU222" in url:
                     raise ValueError("Simulated parse error")
@@ -148,6 +150,7 @@ def test_partial_failure_does_not_stop_run(db_session):
                     "external_id": "AU111" if "AU111" in url else "AU333",
                     "source_url": url,
                 }
+
             mock_parse.side_effect = parse_side_effect
 
             _results, summary = scrape_brand(

@@ -2,7 +2,14 @@ from sqlalchemy.orm import Session
 
 from app.models.car import Car
 
-ALLOWED_SORT = {"id", "year", "mileage_km", "price_jpy", "brand_normalized", "model_normalized"}
+ALLOWED_SORT = {
+    "id",
+    "year",
+    "mileage_km",
+    "price_jpy",
+    "brand_normalized",
+    "model_normalized",
+}
 
 
 def list_cars(

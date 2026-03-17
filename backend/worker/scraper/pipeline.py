@@ -38,6 +38,7 @@ def _translate_specs(specs: dict[str, Any]) -> dict[str, Any]:
             result[key_en] = v
     return result
 
+
 BRAND_URLS = {
     "TO": "https://carsensor.net/usedcar/bTO/index.html",
     "HO": "https://carsensor.net/usedcar/bHO/index.html",
@@ -105,9 +106,7 @@ def upsert_car(db: Session, data: dict[str, Any]) -> tuple[Car, str]:
     For updates: only overwrite when new value is not None (safer MVP).
     """
     now = datetime.now(timezone.utc)
-    existing = (
-        db.query(Car).filter(Car.external_id == data["external_id"]).first()
-    )
+    existing = db.query(Car).filter(Car.external_id == data["external_id"]).first()
 
     if existing:
         for k, v in data.items():
@@ -168,8 +167,8 @@ def scrape_brand(
         try:
             html = client.fetch_html(detail_url)
             raw = parse_detail_page(html, detail_url)
-            raw["external_id"] = (
-                raw.get("external_id") or extract_external_id(detail_url)
+            raw["external_id"] = raw.get("external_id") or extract_external_id(
+                detail_url
             )
             if not raw["external_id"]:
                 summary["skipped"] += 1

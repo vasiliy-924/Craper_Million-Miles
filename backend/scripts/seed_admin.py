@@ -1,4 +1,5 @@
 """Seed the default admin user. Run once after DB migrations."""
+
 import sys
 from pathlib import Path
 

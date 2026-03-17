@@ -26,7 +26,9 @@ def list_cars_route(
     max_year: int | None = Query(None, description="Maximum year"),
     min_mileage: int | None = Query(None, description="Minimum mileage (km)"),
     max_mileage: int | None = Query(None, description="Maximum mileage (km)"),
-    sort_by: str = Query("id", description="Sort field (id, year, mileage_km, price_jpy, etc.)"),
+    sort_by: str = Query(
+        "id", description="Sort field (id, year, mileage_km, price_jpy, etc.)"
+    ),
     sort_order: str = Query("asc", description="Sort order: asc or desc"),
 ):
     """List cars with filtering, sorting, and pagination. Requires authentication."""

@@ -31,7 +31,7 @@ class Car(Base):
         nullable=True,
     )
     brand_normalized: Mapped[Optional[str]] = mapped_column(
-        String(255), 
+        String(255),
         index=True,
         nullable=True,
     )

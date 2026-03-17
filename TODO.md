@@ -261,7 +261,7 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - default credentials ✅
   - API endpoints ✅
   - known limitations ✅
-- Include screenshots or GIF if time allows
+- Include screenshots or GIF if time allows ✅
 - Deploy after local Docker is stable
 
 ## Recommended build order
@@ -297,5 +297,3 @@ The MVP is done when:
 - frontend has login, list, and detail pages
 - project runs with Docker Compose
 - README is clear enough for reviewer to launch in minutes
-
-If you want, next I can turn this into a very concrete file-by-file implementation checklist with exact folders, modules, models, and endpoint contracts.

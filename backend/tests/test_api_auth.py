@@ -1,7 +1,5 @@
 """API tests for auth endpoints."""
 
-import pytest
-
 
 def test_login_success(client):
     """POST /auth/login with admin/admin123 returns 200 and access_token."""

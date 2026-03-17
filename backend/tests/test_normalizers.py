@@ -1,5 +1,4 @@
 """Tests for scraper normalizers."""
-import pytest
 
 from worker.scraper.normalizers import (
     extract_external_id,

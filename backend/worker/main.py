@@ -3,6 +3,7 @@
 Run the scraper: from backend/ with venv activated:
     python -m worker.main
 """
+
 import os
 import sys
 from pathlib import Path
@@ -27,7 +28,9 @@ def _get_config():
 
 
 def _run_once(db, brands, max_pages, max_cars):
-    results, summary = scrape_all(db, brands=brands, max_pages=max_pages, max_cars=max_cars)
+    results, summary = scrape_all(
+        db, brands=brands, max_pages=max_pages, max_cars=max_cars
+    )
     return results, summary
 
 
@@ -37,7 +40,9 @@ def main():
     db = SessionLocal()
     try:
         start = datetime.now(timezone.utc)
-        print(f"[{start.isoformat()}] Worker start | mode={mode} | brands={brands} | max_pages={max_pages} | max_cars={max_cars}")
+        print(
+            f"[{start.isoformat()}] Worker start | mode={mode} | brands={brands} | max_pages={max_pages} | max_cars={max_cars}"
+        )
 
         results, summary = _run_once(db, brands, max_pages, max_cars)
 

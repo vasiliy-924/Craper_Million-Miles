@@ -110,7 +110,6 @@ def normalize_fuel(value: Optional[str]) -> Optional[str]:
         return "electric"
     _log_unknown("fuel", s)
     return s
-    
 
 
 def normalize_transmission(value: Optional[str]) -> Optional[str]:
@@ -141,7 +140,6 @@ def normalize_body_type(value: Optional[str]) -> Optional[str]:
     if result:
         return result
 
-    s_upper = s.upper()
     if "SUV" in s or "クロカン" in s:
         return "SUV"
     if "ハッチバック" in s:

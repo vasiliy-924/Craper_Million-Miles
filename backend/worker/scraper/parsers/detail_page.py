@@ -1,4 +1,5 @@
 """Parse car detail pages from carsensor.net."""
+
 import re
 from typing import Any
 from urllib.parse import urljoin
@@ -106,7 +107,12 @@ def parse_detail_page(html: str, source_url: str) -> dict[str, Any]:
                 result["price_raw"] = value
             if "支払総額" in label and "税込" in label:
                 result["total_price_raw"] = value
-            if "販売地域" in label or "所在地" in label or "都道府県" in label or "地域" in label:
+            if (
+                "販売地域" in label
+                or "所在地" in label
+                or "都道府県" in label
+                or "地域" in label
+            ):
                 result["location_raw"] = value
             if "色" in label:
                 result["color_raw"] = value
@@ -137,7 +143,7 @@ def parse_detail_page(html: str, source_url: str) -> dict[str, Any]:
         for match in re.finditer(r"([\d.]+)\s*万円", page_text):
             # Check if this appears near 車両本体 or 本体価格 (within ~50 chars)
             start = max(0, match.start() - 50)
-            context = page_text[start: match.end() + 20]
+            context = page_text[start : match.end() + 20]
             if "本体" in context or "車両" in context:
                 result["price_raw"] = match.group(0)
                 break

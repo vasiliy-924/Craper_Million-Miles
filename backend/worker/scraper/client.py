@@ -35,10 +35,8 @@ class ScraperClient:
                 resp.encoding = resp.apparent_encoding or "utf-8"
                 time.sleep(self.delay)
                 return resp.text
-            except requests.RequestException as e:
+            except requests.RequestException:
                 if attempt == self.retries - 1:
                     raise
                 time.sleep(self.delay * (attempt + 1))
         return ""
-
-    
