@@ -19,19 +19,24 @@ from .normalizers import (
     parse_mileage_km,
     parse_year,
 )
-from .dictionaries import SPEC_LABEL_MAP
+from .dictionaries import SPEC_LABEL_MAP, SPEC_VALUE_MAP
 from .parsers.detail_page import parse_detail_page
 from .parsers.list_page import extract_detail_urls
 
 
 def _translate_specs(specs: dict[str, Any]) -> dict[str, Any]:
-    """Translate Japanese spec keys to English using SPEC_LABEL_MAP."""
+    """Translate Japanese spec keys and values to English."""
     if not specs:
         return {}
-    return {
-        SPEC_LABEL_MAP.get(k, k): v
-        for k, v in specs.items()
-    }
+    result = {}
+    for k, v in specs.items():
+        key_en = SPEC_LABEL_MAP.get(k, k)
+        if isinstance(v, str):
+            val_en = SPEC_VALUE_MAP.get(v.strip(), v)
+            result[key_en] = val_en
+        else:
+            result[key_en] = v
+    return result
 
 BRAND_URLS = {
     "TO": "https://carsensor.net/usedcar/bTO/index.html",

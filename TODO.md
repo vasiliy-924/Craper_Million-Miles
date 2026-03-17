@@ -251,16 +251,16 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
   - filters and pagination work ✅
 
 ### 15. Submission polish
-- README sections:
-  - project overview
-  - stack
-  - architecture
-  - scraping scope
-  - normalization approach
-  - local setup
-  - default credentials
-  - API endpoints
-  - known limitations
+- README sections: ✅ 
+  - project overview ✅
+  - stack ✅
+  - architecture ✅
+  - scraping scope ✅
+  - normalization approach ✅
+  - local setup ✅
+  - default credentials ✅
+  - API endpoints ✅
+  - known limitations ✅
 - Include screenshots or GIF if time allows
 - Deploy after local Docker is stable
 

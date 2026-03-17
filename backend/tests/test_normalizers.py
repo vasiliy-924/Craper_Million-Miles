@@ -62,9 +62,13 @@ class TestNormalizeBrand:
         assert normalize_brand("ホンダ") == "Honda"
         assert normalize_brand("日産") == "Nissan"
 
+    def test_maps_new_brands(self):
+        assert normalize_brand("マツダ") == "Mazda"
+        assert normalize_brand("スバル") == "Subaru"
+        assert normalize_brand("三菱") == "Mitsubishi"
+
     def test_returns_raw_for_unknown(self):
-        assert normalize_brand("マツダ") == "マツダ"
-        assert normalize_brand("スバル") == "スバル"
+        assert normalize_brand("アウディ") == "アウディ"
 
     def test_returns_none_for_empty(self):
         assert normalize_brand("") is None

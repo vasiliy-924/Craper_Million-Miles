@@ -1,11 +1,24 @@
+## Overview
+
+A full-stack application that scrapes used car listings from [Carsensor](https://carsensor.net/), stores them in PostgreSQL, and exposes them via a REST API and a Next.js web app. Data is normalized from Japanese to English. Access is protected by JWT authentication.
+
 ## Stack
 
 - **backend**: FastAPI, SQLAlchemy, Alembic, PostgreSQL, python-jose
 - **scraper worker**: Python, httpx/requests, BeautifulSoup, Playwright
-- **frontend**: Next.js, TypeScript, Tailwind CSS, TanStack Query
+- **frontend**: Next.js, TypeScript, Tailwind CSS, TanStack Query, Zustand
 - **infra**: Docker Compose
 
-## One-command startup
+## Local setup
+
+**Prerequisites:** Docker and Docker Compose
+
+1. Clone the repository
+2. Run `make up`
+3. (Optional) Run `make scrape` to populate the database
+4. Open [http://localhost:3000](http://localhost:3000) (frontend) or [http://localhost:8000](http://localhost:8000) (API)
+
+### One-command startup
 
 ```bash
 make up
@@ -19,6 +32,67 @@ This will:
 
 - **Frontend**: http://localhost:3000
 - **API**: http://localhost:8000
+- **API docs**: http://localhost:8000/docs
+
+## Default credentials
+
+- **Username:** `admin`
+- **Password:** `admin123`
+
+## API endpoints
+
+| Method | Path | Auth | Description |
+|--------|------|------|-------------|
+| GET | `/health` | No | Health check |
+| POST | `/auth/login` | No | Login (username, password) → JWT |
+| GET | `/cars` | Bearer | List cars with filters, sort, pagination |
+| GET | `/cars/{id}` | Bearer | Car detail by ID |
+
+### GET /cars query parameters
+
+- `page`, `limit` – pagination
+- `brand`, `model` – filter by brand/model
+- `min_price`, `max_price` – price range (JPY)
+- `min_year`, `max_year` – year range
+- `min_mileage`, `max_mileage` – mileage range (km)
+- `sort_by`, `sort_order` – sort field and direction (asc/desc)
+
+### Get JWT token
+
+```bash
+curl -s -X POST http://localhost:8000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}'
+```
+
+## Architecture
+
+```
+/backend
+  /app
+    /api
+    /core
+    /db
+    /models
+    /schemas
+    /services
+  /worker
+    /scraper
+/frontend
+/infra
+  docker-compose.yml
+```
+
+## Scraping scope
+
+- **Source:** [Carsensor](https://carsensor.net/)
+- **Brands:** Toyota, Honda, Nissan
+- **Schedule:** Hourly (configurable via worker)
+- **Data:** Brand, model, year, mileage, price, fuel, transmission, body type, location, dealer, photos, specs
+
+## Normalization
+
+Japanese values are mapped to English via dictionaries (brands, fuel, transmission, body type, colors, spec labels). Both raw and normalized fields are stored. Unknown values are logged once and kept as-is. Price (`149.8万円`), mileage (`3.5万km`), and year (`2023(R05)年`) are parsed into numeric values.
 
 ## Other commands
 
@@ -60,27 +134,13 @@ After `make up`:
 4. **Cars list** – Browse `/cars`, use filters and pagination
 5. **Car detail** – Click a car to view `/cars/[id]` with full specs
 
-## Get JWT token
+## Known limitations
 
-```bash
-curl -s -X POST http://localhost:8000/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"admin123"}'
-```
+- Scrapes only Toyota, Honda, Nissan
+- English-only UI
+- No admin panel
+- HTML/BeautifulSoup first; Playwright used only when necessary
 
-## Architecture
+## Author
 
-```
-/backend
-  /app
-    /api
-    /core
-    /db
-    /models
-    /schemas
-    /services
-  /worker
-/frontend
-/infra
-  docker-compose.yml
-```
+**Василий Петров** – [GitHub](https://github.com/vasiliy-924)

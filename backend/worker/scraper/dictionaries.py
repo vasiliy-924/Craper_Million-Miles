@@ -4,6 +4,13 @@ BRAND_MAP = {
     "トヨタ": "Toyota",
     "ホンダ": "Honda",
     "日産": "Nissan",
+    "マツダ": "Mazda",
+    "スバル": "Subaru",
+    "三菱": "Mitsubishi",
+    "ダイハツ": "Daihatsu",
+    "スズキ": "Suzuki",
+    "レクサス": "Lexus",
+    "いすゞ": "Isuzu",
 }
 
 FUEL_MAP = {
@@ -35,6 +42,99 @@ BODY_TYPE_MAP = {
     "クーペ": "coupe",
     "コンパクトカー": "compact",
     "その他": "other",
+}
+
+# Japanese color names -> English (for spec values)
+COLOR_MAP = {
+    "ホワイト": "White",
+    "白": "White",
+    "ブラック": "Black",
+    "黒": "Black",
+    "シルバー": "Silver",
+    "グレー": "Gray",
+    "グレイ": "Gray",
+    "レッド": "Red",
+    "赤": "Red",
+    "ブルー": "Blue",
+    "青": "Blue",
+    "ベージュ": "Beige",
+    "ゴールド": "Gold",
+    "金": "Gold",
+    "グリーン": "Green",
+    "緑": "Green",
+    "イエロー": "Yellow",
+    "黄": "Yellow",
+    "オレンジ": "Orange",
+    "パープル": "Purple",
+    "紫": "Purple",
+    "ブロンズ": "Bronze",
+    "チャコール": "Charcoal",
+    "パール": "Pearl",
+    "ネイビー": "Navy",
+    "ダークブルー": "Dark blue",
+    "ライトブルー": "Light blue",
+    "ダークグレー": "Dark gray",
+    "ライトグレー": "Light gray",
+}
+
+# Japanese spec VALUES -> English (used when translating values in All specifications table)
+SPEC_VALUE_MAP = {
+    # Placeholders
+    "なし": "—",
+    "－": "—",
+    "無し": "—",
+    "◯": "Yes",
+    "○": "Yes",
+    "×": "No",
+    "有": "Yes",
+    "無": "No",
+    "付": "Included",
+    "不明": "Unknown",
+    "リ済込": "Included",
+    # Body types
+    "ハッチバック": "hatchback",
+    "ハッチバック・ミニバン": "hatchback",
+    "ミニバン": "minivan",
+    "SUV・クロカン": "SUV",
+    "クロカン・ＳＵＶ": "SUV",
+    "セダン": "sedan",
+    "ステーションワゴン": "sedan",
+    "クーペ": "coupe",
+    "コンパクトカー": "compact",
+    "その他": "other",
+    # Fuel
+    "ガソリン": "petrol",
+    "ディーゼル": "diesel",
+    "ハイブリッド": "hybrid",
+    "電気": "electric",
+    "レギュラー": "petrol",
+    "軽油": "diesel",
+    "ガソリン・レギュラー": "petrol",
+    "レギュラーガソリン": "petrol",
+    "ハイオク": "premium petrol",
+    # Transmission
+    "フロアCVT": "CVT",
+    "インパネCVT": "CVT",
+    "フロアMTモード付CVT": "CVT",
+    "インパネ4AT": "AT",
+    "インパネ6AT": "AT",
+    "フロアMT": "MT",
+    "その他AT": "AT",
+    "インパネMT": "MT",
+    "フロアMTモード付": "MT",
+    # Drive type
+    "四輪駆動(4WD)": "4WD",
+    "前輪駆動": "FWD",
+    "後輪駆動": "RWD",
+    "FF": "FWD",
+    "FR": "RWD",
+    "前輪駆動(FF)": "FWD",
+    "後輪駆動(FR)": "RWD",
+    # Steering
+    "右": "Right",
+    "左": "Left",
+    # Colors
+    **COLOR_MAP,
 }
 
 # Japanese spec keys -> English display labels (used when storing specs)

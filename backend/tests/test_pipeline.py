@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.db.base import Base
 from app.models.car import Car
-from worker.scraper.pipeline import scrape_brand, upsert_car
+from worker.scraper.pipeline import _translate_specs, scrape_brand, upsert_car
 
 
 @pytest.fixture
@@ -91,6 +91,33 @@ def test_none_does_not_overwrite_existing_value(db_session):
     }
     car, _ = upsert_car(db_session, data2)
     assert car.dealer_name == "Gulliver"
+
+
+def test_translate_specs_translates_keys_and_values():
+    """_translate_specs translates both Japanese keys and values to English."""
+    specs = {
+        "色": "ホワイト",
+        "ボディタイプ": "ミニバン",
+        "駆動方式": "四輪駆動(4WD)",
+    }
+    result = _translate_specs(specs)
+    assert result["Color"] == "White"
+    assert result["Body type"] == "minivan"
+    assert result["Drive type"] == "4WD"
+
+
+def test_translate_specs_placeholder_values():
+    """Placeholder values like なし are translated to —."""
+    specs = {"修復歴": "なし"}
+    result = _translate_specs(specs)
+    assert result["Repair history"] == "—"
+
+
+def test_translate_specs_unknown_value_passes_through():
+    """Unknown values are passed through unchanged."""
+    specs = {"色": "未知色"}
+    result = _translate_specs(specs)
+    assert result["Color"] == "未知色"
 
 
 def test_partial_failure_does_not_stop_run(db_session):
