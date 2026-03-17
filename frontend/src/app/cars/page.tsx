@@ -48,7 +48,7 @@ export default function CarsPage() {
                   setFilter("brand", e.target.value);
                 }}
                 placeholder="e.g. Toyota"
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             <div>
@@ -64,7 +64,7 @@ export default function CarsPage() {
                   setFilter("model", e.target.value);
                 }}
                 placeholder="e.g. Camry"
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             <div>
@@ -79,7 +79,7 @@ export default function CarsPage() {
                   setFilter("min_price", e.target.value ? parseInt(e.target.value, 10) : undefined)
                 }
                 placeholder="0"
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             <div>
@@ -94,7 +94,7 @@ export default function CarsPage() {
                   setFilter("max_price", e.target.value ? parseInt(e.target.value, 10) : undefined)
                 }
                 placeholder="—"
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             <div>
@@ -109,7 +109,7 @@ export default function CarsPage() {
                   setFilter("min_year", e.target.value ? parseInt(e.target.value, 10) : undefined)
                 }
                 placeholder="—"
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             <div>
@@ -124,7 +124,7 @@ export default function CarsPage() {
                   setFilter("max_year", e.target.value ? parseInt(e.target.value, 10) : undefined)
                 }
                 placeholder="—"
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             <div>
@@ -139,7 +139,7 @@ export default function CarsPage() {
                   setFilter("min_mileage", e.target.value ? parseInt(e.target.value, 10) : undefined)
                 }
                 placeholder="—"
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             <div>
@@ -154,7 +154,7 @@ export default function CarsPage() {
                   setFilter("max_mileage", e.target.value ? parseInt(e.target.value, 10) : undefined)
                 }
                 placeholder="—"
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               />
             </div>
             <div>
@@ -165,7 +165,7 @@ export default function CarsPage() {
                 id="sort_by"
                 value={params.sort_by}
                 onChange={(e) => setFilter("sort_by", e.target.value)}
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               >
                 {SORT_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -182,7 +182,7 @@ export default function CarsPage() {
                 id="sort_order"
                 value={params.sort_order}
                 onChange={(e) => setFilter("sort_order", e.target.value as "asc" | "desc")}
-                className="min-h-[44px] w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+                className="min-h-[44px] w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-900 placeholder:text-gray-500"
               >
                 <option value="asc">Ascending</option>
                 <option value="desc">Descending</option>
@@ -227,7 +227,7 @@ export default function CarsPage() {
                       type="button"
                       onClick={() => setFilter("page", (params.page ?? 1) - 1)}
                       disabled={(params.page ?? 1) <= 1}
-                      className="min-h-[44px] min-w-[44px] rounded border border-gray-300 px-3 py-1 text-sm disabled:opacity-50"
+                      className="min-h-[44px] min-w-[44px] rounded border border-gray-300 bg-white px-3 py-1 text-sm text-gray-900 disabled:opacity-50"
                     >
                       Previous
                     </button>
@@ -238,7 +238,7 @@ export default function CarsPage() {
                       type="button"
                       onClick={() => setFilter("page", (params.page ?? 1) + 1)}
                       disabled={(params.page ?? 1) >= data.pages}
-                      className="min-h-[44px] min-w-[44px] rounded border border-gray-300 px-3 py-1 text-sm disabled:opacity-50"
+                      className="min-h-[44px] min-w-[44px] rounded border border-gray-300 bg-white px-3 py-1 text-sm text-gray-900 disabled:opacity-50"
                     >
                       Next
                     </button>
