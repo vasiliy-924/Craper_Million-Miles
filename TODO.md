@@ -234,21 +234,21 @@ Since I’m in Ask mode, I can’t implement it directly from here, but I can gi
 
 ### 14. Testing and verification
 - Backend:
-  - login test
-  - cars list filter test
-  - car detail test
-  - normalization unit tests
+  - login test ✅
+  - cars list filter test ✅
+  - car detail test ✅
+  - normalization unit tests ✅
 - Scraper:
-  - parser tests on saved HTML fixtures
-  - currency/mileage/year normalization tests
+  - parser tests on saved HTML fixtures 
+  - currency/mileage/year normalization tests ✅
 - Frontend:
-  - smoke test login
-  - smoke test list rendering
-  - smoke test detail page
+  - smoke test login ✅
+  - smoke test list rendering ✅
+  - smoke test detail page ✅
 - Manual verification:
-  - scrape command fills DB
-  - login works with `admin/admin123`
-  - filters and pagination work
+  - scrape command fills DB ✅
+  - login works with `admin/admin123` ✅
+  - filters and pagination work ✅
 
 ### 15. Submission polish
 - README sections:

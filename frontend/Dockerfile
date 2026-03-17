@@ -5,6 +5,13 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
+FROM node:20-alpine AS test
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+CMD ["npm", "run", "test:run"]
+
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production

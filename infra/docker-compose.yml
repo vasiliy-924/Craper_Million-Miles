@@ -51,5 +51,12 @@ services:
     depends_on:
       - api
 
+  frontend-test:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      target: test
+    command: npm run test:run
+
 volumes:
   postgres_data:

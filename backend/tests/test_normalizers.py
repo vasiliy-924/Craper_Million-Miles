@@ -56,6 +56,21 @@ class TestParseMileageKm:
         assert parse_mileage_km(None) is None
 
 
+class TestNormalizeBrand:
+    def test_maps_known_brands(self):
+        assert normalize_brand("トヨタ") == "Toyota"
+        assert normalize_brand("ホンダ") == "Honda"
+        assert normalize_brand("日産") == "Nissan"
+
+    def test_returns_raw_for_unknown(self):
+        assert normalize_brand("マツダ") == "マツダ"
+        assert normalize_brand("スバル") == "スバル"
+
+    def test_returns_none_for_empty(self):
+        assert normalize_brand("") is None
+        assert normalize_brand(None) is None
+
+
 class TestParseYear:
     def test_parses_year_with_era(self):
         assert parse_year("2023(R05)年") == 2023
