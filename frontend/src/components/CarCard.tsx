@@ -56,6 +56,7 @@ export function CarCard({ car }: { car: CarListItem }) {
         <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
           {car.year != null && <span>{car.year}</span>}
           <span>{formatMileage(car.mileage_km)}</span>
+          {car.location_normalized && <span>{car.location_normalized}</span>}
         </div>
         <p className="mt-2 font-medium text-gray-900">{formatPrice(car.price_jpy)}</p>
       </div>

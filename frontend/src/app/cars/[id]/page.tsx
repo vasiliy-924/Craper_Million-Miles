@@ -5,6 +5,7 @@ import Link from "next/link";
 import { use, useEffect } from "react";
 import { CarDetailSkeleton } from "@/components/CarDetailSkeleton";
 import { useCarDetail } from "@/hooks/useCarDetail";
+import { translateSpecKey } from "@/lib/specLabels";
 
 function formatPrice(price: number | null): string {
   if (price == null) return "Price on request";
@@ -20,6 +21,12 @@ function orNormalized(normalized: string | null, raw: string | null): string {
   return normalized || raw || "—";
 }
 
+function formatSpecValue(value: unknown): string {
+  if (value == null || value === "") return "—";
+  const s = String(value);
+  return s.trim() === "" ? "—" : s;
+}
+
 export default function CarDetailPage({
   params,
 }: {
@@ -31,7 +38,7 @@ export default function CarDetailPage({
 
   useEffect(() => {
     if (car) {
-      const title = `${orNormalized(car.brand_normalized, car.brand_raw)} ${orNormalized(car.model_normalized, car.model_raw)} | 25 Million Miles`;
+      const title = `${orNormalized(car.brand_normalized, car.brand_raw)} ${orNormalized(car.model_normalized, car.model_raw)} | Thunderbasil × Million Miles`;
       document.title = title;
     }
   }, [car]);
@@ -130,54 +137,59 @@ export default function CarDetailPage({
             )}
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div>
-              <h2 className="text-sm font-medium text-gray-500">Year</h2>
-              <p className="text-gray-900">{car.year ?? "—"}</p>
-            </div>
-            <div>
-              <h2 className="text-sm font-medium text-gray-500">Mileage</h2>
-              <p className="text-gray-900">{formatMileage(car.mileage_km)}</p>
-            </div>
-            <div>
-              <h2 className="text-sm font-medium text-gray-500">Price</h2>
-              <p className="font-semibold text-gray-900">
-                {formatPrice(car.price_jpy)}
-              </p>
-            </div>
-            <div>
-              <h2 className="text-sm font-medium text-gray-500">Location</h2>
-              <p className="text-gray-900">
-                {orNormalized(car.location_normalized, car.location_raw)}
-              </p>
-            </div>
-            <div>
-              <h2 className="text-sm font-medium text-gray-500">Fuel</h2>
-              <p className="text-gray-900">
-                {orNormalized(car.fuel_normalized, car.fuel_raw)}
-              </p>
-            </div>
-            <div>
-              <h2 className="text-sm font-medium text-gray-500">Transmission</h2>
-              <p className="text-gray-900">
-                {orNormalized(car.transmission_normalized, car.transmission_raw)}
-              </p>
-            </div>
-            <div>
-              <h2 className="text-sm font-medium text-gray-500">Body type</h2>
-              <p className="text-gray-900">
-                {orNormalized(car.body_type_normalized, car.body_type_raw)}
-              </p>
-            </div>
-            <div>
-              <h2 className="text-sm font-medium text-gray-500">Dealer</h2>
-              <p className="text-gray-900">{car.dealer_name || "—"}</p>
+          {/* Key specs: prominent card */}
+          <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
+            <h2 className="mb-3 text-sm font-semibold text-gray-700">Key specs</h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div>
+                <h3 className="text-xs font-medium text-gray-500">Year</h3>
+                <p className="text-gray-900">{car.year ?? "—"}</p>
+              </div>
+              <div>
+                <h3 className="text-xs font-medium text-gray-500">Mileage</h3>
+                <p className="text-gray-900">{formatMileage(car.mileage_km)}</p>
+              </div>
+              <div>
+                <h3 className="text-xs font-medium text-gray-500">Price</h3>
+                <p className="font-semibold text-gray-900">
+                  {formatPrice(car.price_jpy)}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xs font-medium text-gray-500">Location</h3>
+                <p className="text-gray-900">
+                  {orNormalized(car.location_normalized, car.location_raw)}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xs font-medium text-gray-500">Fuel</h3>
+                <p className="text-gray-900">
+                  {orNormalized(car.fuel_normalized, car.fuel_raw)}
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xs font-medium text-gray-500">Transmission</h3>
+                <p className="text-gray-900">
+                  {orNormalized(car.transmission_normalized, car.transmission_raw)}
+                </p>
+              </div>
             </div>
           </div>
 
+          {/* Dealer */}
+          {car.dealer_name && (
+            <div className="mt-4 rounded-lg border border-gray-200 bg-white p-4">
+              <h2 className="text-sm font-medium text-gray-500">Dealer</h2>
+              <p className="font-medium text-gray-900">{car.dealer_name}</p>
+            </div>
+          )}
+
+          {/* All specifications */}
           {car.specs && Object.keys(car.specs).length > 0 && (
-            <div className="mt-8">
-              <h2 className="mb-4 text-lg font-semibold text-gray-900">Specifications</h2>
+            <div className="mt-8 border-t border-gray-200 pt-8">
+              <h2 className="mb-4 text-lg font-semibold text-gray-900">
+                All specifications
+              </h2>
               <div className="overflow-hidden rounded border border-gray-200">
                 <table className="w-full text-sm">
                   <tbody>
@@ -187,10 +199,10 @@ export default function CarDetailPage({
                         className="border-b border-gray-100 last:border-0 odd:bg-gray-50"
                       >
                         <td className="px-4 py-2 font-medium text-gray-600">
-                          {key}
+                          {translateSpecKey(key)}
                         </td>
                         <td className="px-4 py-2 text-gray-900">
-                          {String(value ?? "—")}
+                          {formatSpecValue(value)}
                         </td>
                       </tr>
                     ))}

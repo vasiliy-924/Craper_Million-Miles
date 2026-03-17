@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "25 Million Miles – Car Listings",
+  title: "Thunderbasil × Million Miles – Car Listings",
   description: "Browse used cars from Carsensor",
 };
 

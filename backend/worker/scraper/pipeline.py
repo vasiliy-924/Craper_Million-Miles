@@ -19,8 +19,19 @@ from .normalizers import (
     parse_mileage_km,
     parse_year,
 )
+from .dictionaries import SPEC_LABEL_MAP
 from .parsers.detail_page import parse_detail_page
 from .parsers.list_page import extract_detail_urls
+
+
+def _translate_specs(specs: dict[str, Any]) -> dict[str, Any]:
+    """Translate Japanese spec keys to English using SPEC_LABEL_MAP."""
+    if not specs:
+        return {}
+    return {
+        SPEC_LABEL_MAP.get(k, k): v
+        for k, v in specs.items()
+    }
 
 BRAND_URLS = {
     "TO": "https://carsensor.net/usedcar/bTO/index.html",
@@ -78,7 +89,7 @@ def normalize_to_db(raw: dict[str, Any]) -> dict[str, Any]:
         "dealer_name": _truncate(raw.get("dealer_name")),
         "main_image_url": raw.get("main_image_url"),
         "image_urls": raw.get("image_urls") or [],
-        "specs": raw.get("specs_raw") or {},
+        "specs": _translate_specs(raw.get("specs_raw") or {}),
     }
 
 

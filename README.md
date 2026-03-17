@@ -32,3 +32,8 @@ curl -s -X POST http://localhost:8000/auth/login \
 ```
 
 
+```bash
+docker-compose build
+docker-compose up -d
+docker compose run --rm worker python -m worker.main
+```

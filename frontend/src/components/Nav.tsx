@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { getToken } from "@/lib/auth";
 import { useAuthStore } from "@/stores/auth";
 
@@ -9,7 +10,12 @@ export function Nav() {
   const router = useRouter();
   const token = useAuthStore((s) => s.token);
   const clearToken = useAuthStore((s) => s.clearToken);
-  const isAuthenticated = !!token || !!getToken();
+  const [mounted, setMounted] = useState(false);
+
+  // Defer auth-dependent rendering until after hydration to avoid server/client mismatch
+  useEffect(() => setMounted(true), []);
+
+  const isAuthenticated = mounted && (!!token || !!getToken());
 
   const handleLogout = () => {
     clearToken();
@@ -23,7 +29,7 @@ export function Nav() {
           href="/"
           className="text-lg font-semibold text-gray-900 hover:text-gray-700"
         >
-          25 Million Miles
+          Thunderbasil × Million Miles
         </Link>
         <div className="flex items-center gap-4">
           {isAuthenticated ? (

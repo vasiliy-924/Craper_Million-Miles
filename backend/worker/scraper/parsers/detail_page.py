@@ -5,6 +5,36 @@ from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 
+# Patterns for labels that look like spec values (from comparison/related cars tables)
+_JUNK_MILEAGE = re.compile(r"^\d+\.?\d*万?km$")
+_JUNK_DISPLACEMENT = re.compile(r"^\d+cc$")
+_JUNK_YEAR_DATE = re.compile(r"^\d{4}(年|（R\d{2}）)")
+_JUNK_PRICE = re.compile(r"^\d+\.?\d*万円")
+_JUNK_BRAND_PREFIXES = ("トヨタ", "ホンダ", "日産")
+_JUNK_LABEL_MAX_LEN = 60
+
+
+def _is_junk_spec_label(label: str) -> bool:
+    """
+    Return True if the label looks like a spec value rather than a spec label.
+    Used to exclude comparison/related cars table rows from specs_raw.
+    """
+    if not label or len(label) > _JUNK_LABEL_MAX_LEN:
+        return True
+    if _JUNK_MILEAGE.match(label):
+        return True
+    if _JUNK_DISPLACEMENT.match(label):
+        return True
+    if _JUNK_YEAR_DATE.match(label):
+        return True
+    if _JUNK_PRICE.match(label):
+        return True
+    if label.endswith("県") or label.endswith("府"):
+        return True
+    if len(label) > 25 and any(label.startswith(p) for p in _JUNK_BRAND_PREFIXES):
+        return True
+    return False
+
 
 def parse_detail_page(html: str, source_url: str) -> dict[str, Any]:
     """
@@ -57,6 +87,8 @@ def parse_detail_page(html: str, source_url: str) -> dict[str, Any]:
             label = cells[i].get_text(strip=True)
             value = cells[i + 1].get_text(strip=True)
             if not label:
+                continue
+            if _is_junk_spec_label(label):
                 continue
             result["specs_raw"][label] = value
 

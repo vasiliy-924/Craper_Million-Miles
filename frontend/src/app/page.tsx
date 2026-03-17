@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50 px-4">
       <h1 className="text-2xl font-bold text-gray-900">
-        25 Million Miles – Car Listings
+        Thunderbasil × Million Miles – Car Listings
       </h1>
       <p className="mt-2 text-center text-gray-600">
         Browse used cars from Carsensor. Sign in to view the catalog.

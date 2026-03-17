@@ -13,6 +13,7 @@ class CarListItemResponse(BaseModel):
     year: Optional[int] = None
     mileage_km: Optional[int] = None
     price_jpy: Optional[int] = None
+    location_normalized: Optional[str] = None
     main_image_url: Optional[str] = None
 
     model_config = {"from_attributes": True}

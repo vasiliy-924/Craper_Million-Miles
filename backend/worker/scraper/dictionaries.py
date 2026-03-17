@@ -37,14 +37,68 @@ BODY_TYPE_MAP = {
     "その他": "other",
 }
 
+# Japanese spec keys -> English display labels (used when storing specs)
 SPEC_LABEL_MAP = {
-    "年式(初度登録年)": "year",
-    "走行距離": "mileage_km",
-    "本体価格": "price_jpy",
-    "支払総額": "total_price_jpy",
-    "ミッション": "transmission",
-    "エンジン種別": "fuel",
-    "ボディタイプ": "body_type",
+    # Core specs
+    "年式(初度登録年)": "Year",
+    "年式": "Year",
+    "走行距離": "Mileage",
+    "本体価格": "Price",
+    "車両本体価格": "Vehicle price",
+    "支払総額": "Total price",
+    "支払総額（税込）": "Total price (incl. tax)",
+    "ミッション": "Transmission",
+    "エンジン種別": "Fuel",
+    "使用燃料": "Fuel type",
+    "ボディタイプ": "Body type",
+    "駆動方式": "Drive type",
+    "色": "Color",
+    "排気量": "Displacement",
+    "乗車定員": "Seating capacity",
+    "ドア数": "Number of doors",
+    "シート列数": "Seat rows",
+    "ハンドル": "Steering",
+    "車台末尾番号": "Chassis number",
+    # Condition & history
+    "ワンオーナー": "One owner",
+    "修復歴": "Repair history",
+    "禁煙車": "Smoke-free",
+    "新車物件": "New car listing",
+    "登録（届出）済未使用車": "Registered unused",
+    "展示・試乗車": "Display/test drive",
+    "レンタカーアップ": "Rental car",
+    # Special categories
+    "キャンピングカー": "Camping car",
+    "福祉車両": "Welfare vehicle",
+    "正規輸入車": "Official import",
+    "エコカー減税対象車": "Eco-car tax exemption",
+    # Inspections & warranty
+    "車検": "Vehicle inspection",
+    "車検整備付": "Inspection included",
+    "法定整備": "Legal maintenance",
+    "定期点検記録簿": "Periodic inspection record",
+    "保証": "Warranty",
+    # Fees & plans
+    "リサイクル料": "Recycling fee",
+    "プラン名": "Plan name",
+    "Aプラン": "Plan A",
+    "Bプラン": "Plan B",
+    "※内：諸費用（A/Bプランはオプション等の費用が加算されています）": "Incl. fees",
+    "※内：車両本体価格": "Incl. vehicle price",
+    # Dimensions & specs
+    "発売年月": "Release date",
+    "ホイールベース": "Wheelbase",
+    "車体寸法": "Body dimensions",
+    "車両重量": "Vehicle weight",
+    "室内": "Interior dimensions",
+    "最小回転半径": "Min turning radius",
+    # Fuel economy
+    "JC08燃費": "JC08 fuel economy",
+    "WLTC燃費": "WLTC fuel economy",
+    "10.15燃費": "10.15 fuel economy",
+    # Location & misc
+    "地域": "Region",
+    "基本情報": "Basic info",
 }
 
 PREFECTURE_MAP = {
